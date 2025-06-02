@@ -12,12 +12,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    // origin: "http://localhost:3000",
     origin: "https://todoapp-frontend-p41b.onrender.com",
-    // origin: "https://resplendent-beignet-2fdf22.netlify.app/",
     credentials: true,
   })
 );
+// origin: "http://localhost:3000",
+// origin: "https://resplendent-beignet-2fdf22.netlify.app/",
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -46,14 +46,16 @@ app.post("/signup", async (req, res) => {
   await user.save();
 
   const data = { user: { id: user.id } };
-  console.log(data)
-  const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  console.log(data);
+  const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
 
   console.log(token);
   res.cookie("Token", token, {
     httpOnly: true,
-    sameSite: "Lax",
-    secure: false,
+    sameSite: "None",
+    secure: true,
     maxAge: 60 * 60 * 1000,
   });
 
@@ -72,12 +74,14 @@ app.post("/login", async (req, res) => {
     return res.json({ success: false, errors: "Invalid Password" });
   }
 
-  const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+    expiresIn: "1h",
+  });
   console.log(token);
   res.cookie("Token", token, {
     httpOnly: true,
-    sameSite: "Lax",
-    secure: false,
+    sameSite: "None",
+    secure: true,
     maxAge: 60 * 60 * 1000,
   });
 
