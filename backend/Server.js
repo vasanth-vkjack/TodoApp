@@ -12,7 +12,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: "https://todoapp-frontend-p41b.onrender.com",
     // origin: "https://resplendent-beignet-2fdf22.netlify.app/",
     credentials: true,
   })
