@@ -15,6 +15,7 @@ const Loginpage = () => {
 
   const fetchProfile = async () => {
     const response = await fetch("https://todoapp-backend-40tq.onrender.com/profile", {
+      method: "GET",
       credentials: "include",
     });
 
