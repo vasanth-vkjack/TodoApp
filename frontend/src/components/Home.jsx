@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EditTodo from "./EditTodo";
-import "./ToDo.css";
 import { Link } from "react-router-dom";
 
 export const Home = () => {
