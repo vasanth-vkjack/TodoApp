@@ -81,7 +81,7 @@ export const Todo = () => {
     console.log(id, obj);
     await updateToDo(id, obj);
     setEditId(null);
-    dispatch(fetchTodos());
+    // dispatch(fetchTodos());
   };
 
   const handleDelete = async (_id) => {

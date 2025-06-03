@@ -88,7 +88,7 @@ app.post("/login", async (req, res) => {
   res.json({ success: true, message: "Logged in successfully" });
 });
 
-app.get("/profile", (req, res) => {
+app.get("/profile", (req, res) => { 
   const token = req.cookies.Token;
   if (!token)
     return res.status(401).json({ success: false, error: "No token provided" });
