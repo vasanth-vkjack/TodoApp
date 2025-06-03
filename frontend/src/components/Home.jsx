@@ -121,7 +121,7 @@ export const Home = () => {
         />
       </div>
       <ul className="list">
-        {todo?.map((todo, index) => (
+        {paginatedTodos?.map((todo, index) => (
           <li key={index}>
             <div className="todos">
               <div className="todo">

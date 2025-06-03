@@ -12,6 +12,10 @@ export const Todo = () => {
     description: "",
     status: "Pending",
   });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const ITEMS_PER_PAGE = 5;
 
   const dispatch = useDispatch();
   const { todos, loading, error } = useSelector((state) => {
@@ -99,10 +103,13 @@ export const Todo = () => {
   };
 
   const logout = async () => {
-    const response = await fetch("https://todoapp-backend-40tq.onrender.com/logout", {
-      method: "POST",
-      credentials: "include",
-    });
+    const response = await fetch(
+      "https://todoapp-backend-40tq.onrender.com/logout",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
 
     const data = await response.json();
     if (data.success) {
@@ -111,6 +118,20 @@ export const Todo = () => {
     } else {
       alert("Logout failed");
     }
+  };
+
+  const filteredTodos = todos.filter((task) =>
+    task.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredTodos.length / ITEMS_PER_PAGE);
+  const paginatedTodos = filteredTodos.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -147,8 +168,19 @@ export const Todo = () => {
           <button onClick={() => handleAdd()}>Add</button>
         </div>
       </div>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1); // Reset to first page on search
+          }}
+        />
+      </div>
       <ul className="list">
-        {todos?.map((todo, index) => (
+        {paginatedTodos?.map((todo, index) => (
           <li key={index}>
             <div className="todos">
               <div className="todo">
@@ -171,6 +203,17 @@ export const Todo = () => {
           </li>
         ))}
       </ul>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, idx) => (
+          <button
+            key={idx + 1}
+            onClick={() => handlePageChange(idx + 1)}
+            className={currentPage === idx + 1 ? "active-page" : ""}
+          >
+            {idx + 1}
+          </button>
+        ))}
+      </div>
       <div>
         {editId && (
           <EditTodo
