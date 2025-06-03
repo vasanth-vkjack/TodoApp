@@ -296,6 +296,38 @@ Link:hover {
   background-color: #0056b3;
 }
 
+
+/* New CSS For search and pagination */
+
+.search-bar {
+  margin: 1rem 0;
+}
+.search-bar input {
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+}
+
+.pagination .active-page {
+  background-color: #007bff;
+  color: white;
+}
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;

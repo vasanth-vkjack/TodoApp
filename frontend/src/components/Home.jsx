@@ -10,6 +10,10 @@ export const Home = () => {
     description: "",
     status: "Pending",
   });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const ITEMS_PER_PAGE = 5;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -57,6 +61,20 @@ export const Home = () => {
     setTodo(todo.filter((_, i) => i !== index));
   };
 
+  const filteredTodos = todo.filter((task) =>
+    task.text.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredTodos.length / ITEMS_PER_PAGE);
+  const paginatedTodos = filteredTodos.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <div className="main">
       <div className="top-bar">
@@ -91,6 +109,17 @@ export const Home = () => {
           <button onClick={() => handleAdd()}>Add</button>
         </div>
       </div>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search tasks..."
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setCurrentPage(1); // Reset to first page on search
+          }}
+        />
+      </div>
       <ul className="list">
         {todo?.map((todo, index) => (
           <li key={index}>
@@ -101,13 +130,31 @@ export const Home = () => {
                 <div className="desc">{todo.description}</div>
               </div>
               <div className="btn">
-                <button className="btn-update" onClick={() => handleEdit(todo)}>Update</button>
-                <button className="btn-delete" onClick={() => handleDelete(index)}>Delete</button>
+                <button className="btn-update" onClick={() => handleEdit(todo)}>
+                  Update
+                </button>
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDelete(index)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           </li>
         ))}
       </ul>
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, idx) => (
+          <button
+            key={idx + 1}
+            onClick={() => handlePageChange(idx + 1)}
+            className={currentPage === idx + 1 ? "active-page" : ""}
+          >
+            {idx + 1}
+          </button>
+        ))}
+      </div>
       <div>
         {editId && (
           <EditTodo
