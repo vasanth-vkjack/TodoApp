@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import EditTodo from "./EditTodo";
 import { Link } from "react-router-dom";
+import { TextField } from "@mui/material"
 
 export const Home = () => {
   const [editId, setEditId] = useState(null);
@@ -110,9 +111,11 @@ export const Home = () => {
         </div>
       </div>
       <div className="search-bar">
-        <input
+        <TextField
+          size="small"
+          variant="standard"
           type="text"
-          placeholder="Search tasks..."
+          label="Search tasks..."
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);

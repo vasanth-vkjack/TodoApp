@@ -4,6 +4,7 @@ import "./NewTodo.css";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, deleteTodo, updateTodos } from "../slices/userSlice";
 import { fetchTodos } from "../slices/userSlice";
+import { TextField } from "@mui/material";
 
 export const Todo = () => {
   const [editId, setEditId] = useState(null);
@@ -169,9 +170,11 @@ export const Todo = () => {
         </div>
       </div>
       <div className="search-bar">
-        <input
+        <TextField
+          size="small"
+          variant="standard"
           type="text"
-          placeholder="Search tasks..."
+          label="Search tasks..."
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
